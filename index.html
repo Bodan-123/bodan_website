@@ -1,0 +1,104 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Car Enthusiast Hub</title>
+    <style>
+        body { font-family: Arial, sans-serif; margin: 0; padding: 0; }
+        .container { width: 300px; margin: 20px auto; padding: 20px; border: 1px solid #ccc; border-radius: 5px; display: none; }
+        input { width: 100%; margin: 10px 0; padding: 8px; }
+        button { width: 100%; padding: 10px; background-color: #007bff; color: white; border: none; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+        .home { 
+            background: url('https://www.autocar.co.uk/sites/autocar.co.uk/files/images/car-reviews/first-drives/legacy/lamborghini_revuelto_001.jpg') 
+            no-repeat center center/cover; 
+            height: 100vh; 
+            display: flex; 
+            flex-direction: column; 
+            justify-content: center; 
+            align-items: center; 
+            color: white;
+            text-shadow: 1px 1px 4px black;
+        }
+        .home button { margin: 10px; padding: 15px; font-size: 16px; }
+    </style>
+</head>
+<body>
+    <div class="home" id="homePage">
+        <h1>Welcome to Car Enthusiast Hub</h1>
+        <button onclick="showLogin()">Login</button>
+        <button onclick="showSignup()">Sign Up</button>
+        <button onclick="window.location.href='help.html'">Help</button>
+    </div>
+    
+    <div class="container" id="loginContainer">
+        <h2>Login</h2>
+        <input type="email" id="loginEmail" placeholder="Email" required>
+        <input type="password" id="loginPassword" placeholder="Password" required>
+        <button onclick="login()">Login</button>
+        <p>Don't have an account? <a href="#" onclick="showSignup()">Sign up</a></p>
+    </div>
+    
+    <div class="container" id="signupContainer">
+        <h2>Sign Up</h2>
+        <input type="email" id="signupEmail" placeholder="Email" required>
+        <input type="password" id="signupPassword" placeholder="Password" required>
+        <button onclick="signup()">Sign Up</button>
+        <p>Already have an account? <a href="#" onclick="showLogin()">Login</a></p>
+    </div>
+
+    <script>
+        function showSignup() {
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('signupContainer').style.display = 'block';
+        }
+        
+        function showLogin() {
+            document.getElementById('homePage').style.display = 'none';
+            document.getElementById('signupContainer').style.display = 'none';
+            document.getElementById('loginContainer').style.display = 'block';
+        }
+        
+        function signup() {
+            let email = document.getElementById('signupEmail').value;
+            let password = document.getElementById('signupPassword').value;
+            
+            if (email && password) {
+                let user = { email: email, password: password };
+                localStorage.setItem(email, JSON.stringify(user));
+                alert('Account created successfully!');
+                goToHomePage();
+            } else {
+                alert('Please fill in all fields');
+            }
+        }
+        
+        function login() {
+            let email = document.getElementById('loginEmail').value;
+            let password = document.getElementById('loginPassword').value;
+            
+            let storedUser = localStorage.getItem(email);
+            if (storedUser) {
+                let user = JSON.parse(storedUser);
+                if (user.password === password) {
+                    alert('Login successful!');
+                    goToHomePage();
+                } else {
+                    alert('Invalid email or password');
+                }
+            } else {
+                alert('User not found. Please sign up.');
+            }
+        }
+        
+        function goToHomePage() {
+            document.getElementById('signupContainer').style.display = 'none';
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('homePage').style.display = 'flex';
+        }
+    </script>
+</body>
+</html>
